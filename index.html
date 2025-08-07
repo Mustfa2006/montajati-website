@@ -50,6 +50,10 @@
   <title>منتجاتي - منصة الدروب شيبنگ الأولى في العراق</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- إعدادات خاصة بالويب -->
+  <script src="js/web-config.js"></script>
+  <script src="js/performance-optimizer.js"></script>
+
 
 
 
@@ -57,6 +61,21 @@
 
 <body>
   <script src="flutter_bootstrap.js" async></script>
+
+  <!-- تسجيل Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/js/enhanced-service-worker.js')
+          .then(function(registration) {
+            console.log('✅ Service Worker مسجل بنجاح:', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('❌ فشل تسجيل Service Worker:', error);
+          });
+      });
+    }
+  </script>
 </body>
 
 </html>
