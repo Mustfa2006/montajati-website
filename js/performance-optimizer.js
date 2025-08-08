@@ -2,7 +2,7 @@
 (function() {
   'use strict';
   
-  // تشغيل محسن الأداء بصمت
+  console.log('⚡ تشغيل محسن الأداء للموقع');
   
   // تحسين تحميل الصور
   function optimizeImages() {
@@ -16,10 +16,12 @@
       
       // إضافة معالج خطأ
       img.addEventListener('error', function() {
+        console.log('❌ فشل تحميل الصورة:', this.src);
         // يمكن إضافة صورة بديلة هنا
       });
     });
     
+    console.log('🖼️ تم تحسين', images.length, 'صورة');
   }
   
   // تحسين الطلبات
@@ -46,11 +48,13 @@
         .catch(error => {
           clearTimeout(timeoutId);
           if (error.name === 'AbortError') {
+            console.log('⏰ انتهت مهلة الطلب:', url);
           }
           throw error;
         });
     };
     
+    console.log('🌐 تم تحسين الطلبات');
   }
   
   // تحسين الذاكرة
@@ -62,12 +66,14 @@
           cacheNames.forEach(cacheName => {
             if (cacheName.includes('old') || cacheName.includes('temp')) {
               caches.delete(cacheName);
+              console.log('🗑️ تم مسح cache قديم:', cacheName);
             }
           });
         });
       }
     }, 30 * 60 * 1000);
     
+    console.log('💾 تم تفعيل تحسين الذاكرة');
   }
   
   // مراقبة الأداء
@@ -75,9 +81,11 @@
     // مراقبة وقت التحميل
     window.addEventListener('load', () => {
       const loadTime = performance.now();
+      console.log('⏱️ وقت تحميل الصفحة:', Math.round(loadTime), 'ms');
       
       // إرسال إحصائيات الأداء (اختياري)
       if (loadTime > 5000) {
+        console.warn('⚠️ تحميل بطيء للصفحة:', Math.round(loadTime), 'ms');
       }
     });
     
@@ -89,10 +97,12 @@
         const totalMB = Math.round(memory.totalJSHeapSize / 1048576);
         
         if (usedMB > 100) {
+          console.warn('⚠️ استخدام ذاكرة عالي:', usedMB, 'MB من', totalMB, 'MB');
         }
       }, 60000); // كل دقيقة
     }
     
+    console.log('📊 تم تفعيل مراقبة الأداء');
   }
   
   // تحسين التمرير
@@ -111,6 +121,7 @@
       }
     }, { passive: true });
     
+    console.log('📜 تم تحسين التمرير');
   }
   
   // تحسين اللمس للأجهزة المحمولة
@@ -119,6 +130,7 @@
     document.addEventListener('touchstart', function() {}, { passive: true });
     document.addEventListener('touchmove', function() {}, { passive: true });
     
+    console.log('👆 تم تحسين اللمس');
   }
   
   // تشغيل جميع التحسينات
@@ -131,7 +143,9 @@
       optimizeScrolling();
       optimizeTouch();
       
+      console.log('✅ تم تشغيل جميع تحسينات الأداء');
     } catch (error) {
+      console.error('❌ خطأ في تشغيل التحسينات:', error);
     }
   }
   
@@ -151,6 +165,7 @@
             cacheNames.map(cacheName => caches.delete(cacheName))
           );
         }).then(() => {
+          console.log('🗑️ تم مسح جميع الـ Cache');
           location.reload();
         });
       }
@@ -178,9 +193,11 @@
       if (window.testServerConnection) {
         return window.testServerConnection();
       } else {
+        console.log('⚠️ دالة اختبار الاتصال غير متاحة');
       }
     }
   };
   
 })();
 
+console.log('✅ تم تحميل محسن الأداء');

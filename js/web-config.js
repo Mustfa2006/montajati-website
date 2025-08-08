@@ -1,7 +1,7 @@
 // إعدادات خاصة بالموقع
 window.webConfig = {
-  // رابط الخادم - نفس النطاق (لا توجد مشاكل CORS)
-  apiBaseUrl: '',
+  // رابط الخادم
+  apiBaseUrl: 'https://clownfish-app-krnk9.ondigitalocean.app',
   
   // مسارات خاصة بالويب
   webApiPaths: {
@@ -51,8 +51,10 @@ window.testServerConnection = async function() {
     });
     
     const data = await response.json();
+    console.log('✅ اختبار الاتصال بالخادم نجح:', data);
     return data;
   } catch (error) {
+    console.error('❌ فشل اختبار الاتصال بالخادم:', error);
     return null;
   }
 };
@@ -67,8 +69,10 @@ window.testCORS = async function() {
     });
     
     const data = await response.json();
+    console.log('✅ اختبار CORS نجح:', data);
     return data;
   } catch (error) {
+    console.error('❌ فشل اختبار CORS:', error);
     return null;
   }
 };
@@ -76,6 +80,7 @@ window.testCORS = async function() {
 // دالة محسنة لتحديث حالة الطلب
 window.updateOrderStatusWeb = async function(orderId, status, reason = '', changedBy = 'web_user') {
   try {
+    console.log('🚀 بدء تحديث حالة الطلب من الويب:', orderId);
     
     const url = window.webConfig.apiBaseUrl + 
                 window.webConfig.webApiPaths.updateOrderStatus.replace('{orderId}', orderId);
@@ -86,6 +91,7 @@ window.updateOrderStatusWeb = async function(orderId, status, reason = '', chang
       changedBy: changedBy
     };
     
+    console.log('📤 إرسال طلب التحديث:', url, requestData);
     
     const response = await fetch(url, {
       method: 'PUT',
@@ -99,20 +105,26 @@ window.updateOrderStatusWeb = async function(orderId, status, reason = '', chang
     }
     
     const data = await response.json();
+    console.log('✅ تم تحديث حالة الطلب بنجاح:', data);
     return data;
     
   } catch (error) {
+    console.error('❌ خطأ في تحديث حالة الطلب:', error);
     throw error;
   }
 };
 
 // تشغيل اختبارات الاتصال عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('🌐 تم تحميل إعدادات الويب');
+  console.log('📊 إعدادات الخادم:', window.webConfig);
   
   // اختبار الاتصال بعد 2 ثانية
   setTimeout(async () => {
+    console.log('🔍 اختبار الاتصال بالخادم...');
     await window.testServerConnection();
     await window.testCORS();
   }, 2000);
 });
 
+console.log('✅ تم تحميل ملف إعدادات الويب');
